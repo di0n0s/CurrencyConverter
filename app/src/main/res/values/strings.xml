@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">CurrencyConverter</string>
+    <string name="euro_textInputEditText_hint">Introduzca euros en valor decimal...</string>
+    <string name="currency_text_view">Elija la moneda</string>
+    <string name="currency_out_hint">Valor en la moneda seleccionada</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
