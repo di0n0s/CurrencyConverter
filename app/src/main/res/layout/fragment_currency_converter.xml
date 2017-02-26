@@ -10,6 +10,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@android:color/holo_blue_bright"
     android:gravity="center"
     android:orientation="vertical"
     tools:context="org.sfc.currencyconverter.CurrencyConverterActivity">
@@ -33,7 +34,6 @@
     </android.support.design.widget.TextInputLayout>
 
     <TextView
-        android:id="@+id/currency_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/currency_text_view"/>
@@ -45,9 +45,16 @@
         android:padding="4dp"/>
 
     <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/currency_out_text"/>
+
+    <TextView
         android:id="@+id/currency_out_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/currency_out_hint"/>
+        android:layout_marginLeft="10dp"
+        android:textSize="20dp"
+        android:textColor="@android:color/black"/>
 
 </LinearLayout>

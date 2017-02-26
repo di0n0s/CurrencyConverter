@@ -5,7 +5,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
-import android.util.Log;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,11 +15,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnItemSelected;
 import butterknife.Unbinder;
 
 /**
@@ -26,11 +22,14 @@ import butterknife.Unbinder;
  */
 public class CurrencyConverterFragment extends Fragment {
 
-    private static final String TAG = "CurrencyConverterFragment";
+    private static final String KEY_VALUE_IN = "valueIN";
+    private static final String KEY_POSITION = "valueIN";
 
-    private double valueIn;
+    private double mValueIn;
+    private double mValueOut;
+    private int mPosition;
+    private String mCurrencyName;
 
-    private Unbinder mUnbinder;
     private ArrayAdapter mAdapter;
 
     public CurrencyConverterFragment() {
@@ -45,6 +44,10 @@ public class CurrencyConverterFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(savedInstanceState!=null){
+            mValueIn = savedInstanceState.getDouble(KEY_VALUE_IN);
+            mPosition = savedInstanceState.getInt(KEY_POSITION);
+        }
     }
 
     @Override
@@ -56,27 +59,47 @@ public class CurrencyConverterFragment extends Fragment {
         mCurrencyOutTextView = (TextView) view.findViewById(R.id.currency_out_text_view);
         mCurrencySpinner = (Spinner) view.findViewById(R.id.currency_spinner);
 
-        mCurrencySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        mInsertValueInputEditText.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String currencyName = mCurrencySpinner.getItemAtPosition(position).toString();
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                mCurrencyName = mCurrencySpinner.getItemAtPosition(mPosition).toString();
                 try {
                     if(mInsertValueInputEditText.getText().toString() == null || mInsertValueInputEditText.getText().toString().isEmpty()) {
-                        valueIn = 0.0;
+                        mValueIn = 0.0;
                     } else {
-                        valueIn = Double.parseDouble(mInsertValueInputEditText.getText().toString());
+                        mValueIn = Double.parseDouble(s.toString());
                     }
-                        switch (currencyName) {
-                            case "Dolar estadounidense":
-                                double valueOut = valueIn * (CurrencyEnum.EEUUDolar.getCurrencyValue());
-                                mCurrencyOutTextView.setText(String.valueOf(valueOut));
-                                break;
-
-                        }
+                    getValueOut(mCurrencyName);
                 }catch (NumberFormatException nfe) {
                     System.out.println("Could not parse " + nfe);
                 }
+            }
 
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        mCurrencySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                mPosition = position;
+                mCurrencyName = mCurrencySpinner.getItemAtPosition(position).toString();
+                try {
+                    if(mInsertValueInputEditText.getText().toString() == null || mInsertValueInputEditText.getText().toString().isEmpty()) {
+                        mValueIn = 0.0;
+                    } else {
+                        mValueIn = Double.parseDouble(mInsertValueInputEditText.getText().toString());
+                    }
+                    getValueOut(mCurrencyName);
+                }catch (NumberFormatException nfe) {
+                    System.out.println("Could not parse " + nfe);
+                }
             }
 
             @Override
@@ -89,11 +112,22 @@ public class CurrencyConverterFragment extends Fragment {
     }
 
     @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putDouble(KEY_VALUE_IN, mValueIn);
+        outState.putInt(KEY_POSITION, mPosition);
+    }
+
+    private void getValueOut(String currencyName) {
+        mValueOut = mValueIn * (CurrencyEnum.findByKey(currencyName).getCurrencyValue());
+        mCurrencyOutTextView.setText(String.valueOf(mValueOut)+"€");
+    }
+
+    @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         spinnerAdapter();
     }
-
 
     private void spinnerAdapter(){
         mAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, CurrencyEnum.getCurrencyNames());
