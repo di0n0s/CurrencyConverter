@@ -16,20 +16,20 @@
     tools:context="org.sfc.currencyconverter.CurrencyConverterActivity">
 
     <android.support.design.widget.TextInputLayout
-        android:id="@+id/insert_euro_textInputLayout"
+        android:id="@+id/insert_currency_textInputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="4dp"
         app:errorEnabled="true">
 
         <android.support.design.widget.TextInputEditText
-            android:id="@+id/insert_euro_textInputEditText"
+            android:id="@+id/insert_currency_textInputEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:maxLines="1"
             android:padding="4dp"
             android:inputType="numberDecimal"
-            android:hint="@string/euro_textInputEditText_hint"/>
+            android:hint="@string/currency_textInputEditText_hint"/>
 
     </android.support.design.widget.TextInputLayout>
 

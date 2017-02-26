@@ -55,7 +55,7 @@ public class CurrencyConverterFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_currency_converter, container, false);
 
-        mInsertValueInputEditText = (TextInputEditText) view.findViewById(R.id.insert_euro_textInputEditText);
+        mInsertValueInputEditText = (TextInputEditText) view.findViewById(R.id.insert_currency_textInputEditText);
         mCurrencyOutTextView = (TextView) view.findViewById(R.id.currency_out_text_view);
         mCurrencySpinner = (Spinner) view.findViewById(R.id.currency_spinner);
 

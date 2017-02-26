@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">CurrencyConverter</string>
-    <string name="euro_textInputEditText_hint">Introduzca los euros</string>
-    <string name="currency_text_view">Elija la moneda</string>
+    <string name="currency_textInputEditText_hint">Introduzca la cantidad de divisa</string>
+    <string name="currency_text_view">Elija la divisa de entrada</string>
     <string name="currency_out_text">Valor en Euros de la moneda seleccionada</string>
 
     <!-- TODO: Remove or change this placeholder text -->
